@@ -3,10 +3,11 @@ var http =  require('http');
 var app = express();
 var bodyParser =  require('body-parser');
 var appDB = require('./app_db');
+var port = process.env.PORT || 3000;
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-http.createServer(app).listen(8080);
+http.createServer(app).listen(port);
 
 /**
  * api : /mantras/:id
