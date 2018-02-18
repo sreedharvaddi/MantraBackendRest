@@ -1,12 +1,24 @@
 {
-    "name": "express-template-HelloWorld",
-    "description": "Hello World Node Express web application",
-    "version": "0.0.1",
-    "private": true,
-    "dependencies": {
-        "express": "latest"
-    },
-    "scripts": {
-      "start": "node server.js"
-    }
+  "name": "mantra_application",
+  "version": "1.0.0",
+  "description": "backend server code with mongo db for mantra's",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodejs app.js",
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/onlinemobigames/mantra/branch/dev"
+  },
+  "keywords": [
+    "mantra"
+  ],
+  "author": "sreedhar",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongodb": "^2.2.33"
+  }
 }
