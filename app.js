@@ -51,7 +51,7 @@ app.post('/mantra', function (req, res) {
     });
 });
 
-app.delete('/mantras:id', function (req, res) {
+app.delete('/mantras/:id', function (req, res) {
     var id = req.params.id;
     console.log(id);
     appDB.connectDB(function (err, db) {
@@ -100,6 +100,42 @@ app.get('/mantras', function (req, res) {
                 db.close();
                 res.send({"error":err});
                 return;
+            }
+            res.send(result);
+            db.close();
+        });
+    });
+});
+
+app.get('/mantras/status/all', function (req, res) {
+    appDB.connectDB(function (err, db) {
+        if (err != null) {
+            res.send({"error": err});
+            return;
+        }
+        appDB.getAllMantras(db, function (err, result) {
+            if (err != null) {
+                db.close();
+                res.send({"error":err});
+            }
+            res.send(result);
+            db.close();
+        });
+    });
+});
+
+app.get('/mantras/status/:status_value', function (req, res) {
+    var status_value = req.params.status_value;
+    console.log("status vaule "+status_value);
+    appDB.connectDB(function (err, db) {
+        if (err != null) {
+            res.send({"error": err});
+            return;
+        }
+        appDB.getMantrasWithStatus(db, status_value, function (err, result) {
+            if (err != null) {
+                db.close();
+                res.send({"error":err});
             }
             res.send(result);
             db.close();

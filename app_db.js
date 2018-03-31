@@ -6,21 +6,22 @@ var mongo_client = require('mongodb').MongoClient;
 var url = "mongodb://admin:sree1006@cluster0-shard-00-00-6ln6c.mongodb.net:27017,cluster0-shard-00-01-6ln6c.mongodb.net:27017,cluster0-shard-00-02-6ln6c.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin";
 
 exports.connectDB = function (callback) {
+    if (process.env.NODE_ENV != null && process.env.NODE_ENV == "dev") {
+        console.log(' process env '+process.env.NODE_ENV);
+        mongo_client.connect("mongodb://localhost:27018/mantradb", callback);
+        return;
+    } 
     mongo_client.connect(url, callback);
 };
 
 exports.addMantra = function (db, mantra, callback) {
+
+    mantra["timestamp"] = Date.now();
     db.collection('mantras_t').update(
         { "mantra_id": mantra.mantra_id },
-        { 
-            "mantra_id": mantra.mantra_id,
-            "mantra" : mantra.mantra,
-            "count" : mantra.count,
-            "description" : mantra.description,
-            "timestamp": Date.now()
-        },
+        mantra,
         { upsert: true }, callback
-    ); 
+    );
 };
 
 exports.getMantra = function (db, id, callback) {
@@ -28,8 +29,16 @@ exports.getMantra = function (db, id, callback) {
 };
              
 exports.getMantras = function (db, callback) {
-    db.collection('mantras_t').find().toArray(callback);
+    db.collection('mantras_t').find({status: "approved"}).toArray(callback);
 };
+
+exports.getMantrasWithStatus = function (db, status_value, callback) {
+    db.collection('mantras_t').find({status:status_value}).toArray(callback);
+};
+
+exports.getAllMantras = function (db, callback) {
+    db.collection('mantras_t').find().toArray(callback);
+}
 
 exports.deleteMantra = function (db, id, callback) {
     db.collection("mantras_t").remove({"mantra_id" : id}, callback);
