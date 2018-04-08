@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodejs app.js",
+    "dev" : "NODE_ENV=dev nodejs app.js",
+    "clean": "rm -rf ./node_modules",
     "test": "test.js"
   },
   "repository": {
