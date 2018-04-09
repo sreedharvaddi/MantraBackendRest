@@ -7,22 +7,22 @@
 </head>
 <body>
 <div id="container" class="w3-container" ng-controller="mantraController">
-    <div id="mantra_list_view" class="w3-card-4" 
+    <div id="mantra_list_view" class="w3-card-4 w3-display-container" 
          style="margin-top:10px;height:95%;width:100%;" 
          ng-hide="!mantraListScreenShow">
        
        <header class="w3-container w3-blue">
           <h1> Mantra List </h1>
-          <button class="w3-button w3-gray w3-display-topright" 
-              style="margin:25px"
-              ng-click="onLoad()"> Refresh </button>
+          <button class="w3-card-4 w3-button w3-circle w3-gray w3-display-topright" 
+              style="margin:10px"
+              ng-click="refresh()">()</button>
        </header>
        <ul class="w3-ul" 
            style="margin:5px;height:85%;overflow:auto">
            <li ng-repeat="mantraItem in mantraList"> 
                 <div class="w3-display-container w3-card w3-green" 
                      style="margin:2px;width:100%;height:20%;overflow:auto" 
-                     ng-click="display(mantraItem)">
+                     ng-click="onItemClickMantraList(mantraItem)">
                     <div class="w3-padding w3-display-topmiddle">
                         {{ mantraItem.mantra }}
                     </div>
@@ -32,6 +32,9 @@
                 </div> 
            </li>
        </ul> 
+       <button class="w3-card-4 w3-button w3-display-bottomright w3-black w3-circle"
+           style="margin:10px"
+           ng-click="onAddButtonClick()">+</button> 
     </div>
 
     <div id="mantra_detailed" class="w3-card-4 w3-yellow"
@@ -64,7 +67,44 @@
          </div>
     </div>
 
-    <div id="add_mantra">
+    <div id="add_mantra" class="w3-card-4 w3-gray"
+         style="width:100%;height:95%;margin-top:10px"
+         ng-hide="!mantraAddScreenShow">
+       <header class="w3-container w3-blue">
+           <h1> Post Mantra </h1>
+       </header>
+       <form class="w3-container">
+           <p>
+           <label> Mantram </label>
+           <textarea class="w3-input" 
+                rows="4" cols="60" ng-model="inputMantra.mantra" required></textarea>
+           </p>
+           <p>
+           <label> Count </label>
+           <select class="w3-select" name="count" ng-model="inputMantra.count">
+               <option value=10>10</option>
+               <option value=108>108</option>
+               <option value=1080>1080</option>
+           </select>
+           </p>
+           <p>
+           <label> Description </label>
+           <textarea class="w3-input" 
+               rows="8" cols="60" ng-model="inputMantra.description"></textarea>
+           </p>
+       </form>
+       <div class="w3-center"
+            style="margin:10px">
+           <button class="w3-button w3-green"
+               style="width:40%;margin:10px"
+               ng-click="onSubmitButtonClick()">
+               Submit
+           </button>     
+           <button class="w3-button w3-black"
+               style="width:40%;margin:10px"
+               ng-click="onCancelButtonClick()">
+              Cancel  
+           </button>
     </div>
 </div>
 </body>

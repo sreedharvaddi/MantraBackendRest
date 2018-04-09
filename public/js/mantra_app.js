@@ -53,31 +53,95 @@ mantraApp.controller("mantraController", function($scope, $http) {
      }
      
      $scope.mantraList = mantraList;
+
      $scope.japam = { "mantra" : "custom",
                       "mantraTitle": "custom",
                       "count": 108,
                       "currentCount": 0 };
+
      $scope.currentMantra = mantraList[0];
+
+     $scope.inputMantra = { "mantra" : "", 
+                            "count" : 10, 
+                            "description" : "",
+                            "status": "created" };
+
      $scope.mantraDetailedScreenShow = false;
      $scope.mantraListScreenShow = true;
-     $scope.display = function (mantra) {
+     $scope.mantraAddScreenShow = false;
+
+     $scope.onItemClickMantraList = function (mantra) {
          $scope.currentMantra = mantra;
+         $scope.displayDetailedScreen();
+     };
+     
+     $scope.onLoad = function () {
+         $scope.refresh();
+     };
+
+     $scope.onAddButtonClick = function () {
+         $scope.displayAddMantraScreen();
+     };
+
+     $scope.onSubmitButtonClick = function () {
+         $scope.postMantra($scope.inputMantra);
+         $scope.displayMantraListScreen();
+     };
+     $scope.onCancelButtonClick = function () {
+         $scope.displayMantraListScreen();
+     };
+
+     $scope.onDetailedScreenDone = function () {
+         $scope.displayMantraListScreen();
+     };
+
+     $scope.displayDetailedScreen = function () {
          $scope.mantraListScreenShow = false;
          $scope.mantraDetailedScreenShow = true;
+         $scope.mantraAddScreenShow = false;
      };
-     $scope.onDetailedScreenDone = function () {
+
+     $scope.displayMantraListScreen = function () {
          $scope.mantraDetailedScreenShow = false;
          $scope.mantraListScreenShow = true;
+         $scope.mantraAddScreenShow = false;
      };
-     $scope.onLoad = function () {
-         $http({
-                  method: "GET",
-                  url: "/mantras"})
-              .then(function (response) {
-                   $scope.mantraList = response.data;
-              },
-              function (reason) {
-                  $scope.error = reason;
-              });
-      }
+ 
+     $scope.displayAddMantraScreen = function () {
+         $scope.mantraDetailedScreenShow = false;
+         $scope.mantraListScreenShow = false;
+         $scope.mantraAddScreenShow = true;         
+     };
+    
+     $scope.getList = function () {
+         $http( {
+             method: "GET",
+             url: "/mantras"
+         } ).then(function (response) {
+             $scope.mantraList = response.data;
+         },
+         function (reason) {
+             $scope.error = reason;
+         });
+     }
+    
+     $scope.refresh = function () {
+         $scope.displayMantraListScreen();
+         $scope.getList();
+     }
+
+     $scope.postMantra = function (inputMantra) {
+         inputMantra["mantra_id"] = inputMantra.mantra.replace(" ", "_");
+         $http( {
+             method: "POST",
+             url: "/mantra",
+             body: inputMantra
+         } ).then( function (response) {
+             $scope.mantraPostedSucess = true;
+         },
+         function (reason) {
+             $scope.error = reason;
+         });
+     }
+     $scope.refresh(); 
 });
