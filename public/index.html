@@ -38,20 +38,20 @@
     </div>
 
     <div id="mantra_detailed" class="w3-card-4 w3-yellow"
-         style="width:100%:height:95%;margin-top:10px" 
+         style="width:100%;height:95%;margin-top:10px" 
          ng-hide="!mantraDetailedScreenShow">
          <header class="w3-container w3-blue">
             <h1> Mantra Detailed </h1>
          </header>
          <div class="w3-display-container w3-center"
-              style="margin:10px;width:90%;height:75%;overflow:auto">
-             <div class="w3-padding w3-display-topmiddle">
+              style="margin:10px;width:90%;height:70%;overflow:auto">
+             <div class="w3-padding">
                  {{ currentMantra.mantra }}
              </div>
-             <div class="w3-padding w3-display-topright">
-                 {{ currentMantra.count }}
+             <div class="w3-padding">
+                 <b>Count {{ currentMantra.count }} </b>
              </div>
-             <div class="w3-padding w3-display-middle">
+             <div class="w3-padding">
                  {{ currentMantra.description }}
              </div>
          </div>
@@ -83,7 +83,8 @@
            <h3>Error!</h3>
            <p>Internal Error.</p>
        </div>
-       <form class="w3-container">
+       <form class="w3-container"
+           style="height:70%">
            <p>
            <label> Mantram </label>
            <textarea class="w3-input" 
@@ -100,7 +101,7 @@
            <p>
            <label> Description </label>
            <textarea class="w3-input" 
-               rows="8" cols="60" ng-model="inputMantra.description"></textarea>
+               rows="5" cols="60" ng-model="inputMantra.description"></textarea>
            </p>
        </form>
        <div class="w3-center"
