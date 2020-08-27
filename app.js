@@ -38,7 +38,11 @@ app.get('/mantras/:id', function (req, res) {
 
 app.post('/mantra', function (req, res) {
     var mantra = req.body;    
-    console.log("mantra "+mantra);
+    console.log("mantra "+JSON.stringify(mantra));
+    if (mantra == undefined || mantra.mantra_id == undefined || mantra.mantra_id === "" || mantra.count == undefined || mantra.count <= 0) {
+        res.send( {"error": "invalid input" });
+        return;
+    }
     appDB.connectDB(function (err, db) {
         if (err != null) {
             res.send({"error": err});
