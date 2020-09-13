@@ -15,7 +15,10 @@ exports.connectDB = function (callback) {
 };
 
 exports.addMantra = function (db, mantra, callback) {
-
+    if (mantra == undefined || mantra.mantra_id == undefined || mantra.mantra_id === "" || mantra.count == undefined || mantra.count <= 0) {
+        callback( { "error" : "input invalid "}, null);
+        return;
+    }
     mantra["timestamp"] = Date.now();
     db.collection('mantras_t').update(
         { "mantra_id": mantra.mantra_id },
